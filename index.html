@@ -99,11 +99,11 @@
         const IconDownload = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>);
 
         
-        // --- COMPONENTE NÚMERO DE PASO (AJUSTADO) ---
+        // --- COMPONENTE NÚMERO DE PASO (AJUSTADO PARA HTML2CANVAS) ---
         const StepNumber = ({ number }) => (
             <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-white border border-slate-100 shadow-md flex items-center justify-center z-20">
-                {/* Agregamos leading-none y un padding top mínimo para corrección visual vertical en la exportación */}
-                <span className="text-[#0060A9] font-bold text-xs font-mono leading-none pt-[1px]">{number}</span>
+                {/* CORRECCIÓN: Quitamos el padding manual y usamos items-center justify-center del padre. Agregamos mt-[1px] para ajuste óptico si es necesario, pero leading-none es clave */}
+                <span className="text-[#0060A9] font-bold text-xs font-mono leading-none">{number}</span>
             </div>
         );
 
@@ -345,7 +345,8 @@
                                 <div className="relative z-10 pt-2 mx-auto max-w-2xl">
                                     <h2 className="text-4xl font-black tracking-tight leading-none mb-2 drop-shadow-sm">Estatus de tu Solicitud</h2>
                                     <p className="text-blue-100 text-base font-light tracking-wide opacity-90">
-                                        Hola <strong className="font-bold text-white border-b border-blue-300/30 pb-0.5">{data.workerName}</strong>, este es el seguimiento de tu trámite de <span className="font-medium text-white">{data.serviceType}</span>:
+                                        {/* CORRECCIÓN: Nombre sin borde inferior, solo negrita */}
+                                        Hola <strong className="font-bold text-white">{data.workerName}</strong>, este es el seguimiento de tu trámite de <span className="font-medium text-white">{data.serviceType}</span>:
                                     </p>
                                 </div>
                             </div>
@@ -360,7 +361,8 @@
                                         <StepNumber number="1" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase">Completado</span>
+                                            {/* CORRECCIÓN: leading-none para centrado vertical exacto en captura */}
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
                                         </div>
                                         {/* Contenedor fijo para imagen */}
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
@@ -380,7 +382,7 @@
                                         <StepNumber number="2" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase">Completado</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso2.png" placeholderText="Validación Aprobada" bgColor="bg-slate-50" />
@@ -398,7 +400,7 @@
                                         <StepNumber number="3" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase">Completado</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso3.png" placeholderText="Gestión Bancaria" bgColor="bg-slate-50" />
@@ -417,7 +419,7 @@
                                         <StepNumber number="4" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1 rounded-full border border-red-100 shadow-sm z-20">
                                             <IconXCircle size={14} className="stroke-[2.5]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase">Incidencia</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Incidencia</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-red-50/20 border-b border-red-50">
                                             <StepImage src="paso4.png" placeholderText="Rechazo Bancario" bgColor="bg-red-50" isRejected={true} />
@@ -497,5 +499,6 @@
     </script>
 </body>
 </html>
+
 
 
