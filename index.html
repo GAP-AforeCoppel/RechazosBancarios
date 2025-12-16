@@ -27,12 +27,11 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Sombras ultra suaves para efecto flotante */
+        /* Sombras ultra suaves */
         .shadow-premium {
             box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.2);
         }
         
-        /* Animación suave para entrada */
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -93,29 +92,62 @@
         const IconCalendar = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>);
         const IconDownload = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>);
 
-        // --- COMPONENTE NÚMERO DE PASO (SVG INFALIBLE) ---
-        // Usamos SVG en lugar de DIV para garantizar que el número esté matemáticamente centrado
-        // incluso al exportar la imagen.
+        // --- COMPONENTE NÚMERO DE PASO (SVG GEOMÉTRICO) ---
         const StepNumber = ({ number }) => (
             <div className="absolute top-4 left-4 z-20">
                 <svg width="28" height="28" viewBox="0 0 28 28" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))' }}>
                     <circle cx="14" cy="14" r="13.5" fill="white" stroke="#f1f5f9" strokeWidth="1" />
-                    {/* Centrado SVG exacto */}
                     <text 
                         x="50%" 
-                        y="54%" 
+                        y="50%" 
+                        dy=".1em"
                         textAnchor="middle" 
                         dominantBaseline="middle" 
                         fill="#00529B" 
                         fontSize="12" 
                         fontWeight="bold" 
-                        fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+                        fontFamily="Arial, sans-serif"
                     >
                         {number}
                     </text>
                 </svg>
             </div>
         );
+
+        // --- COMPONENTE ETIQUETA SVG (SOLUCIÓN DEFINITIVA DE ALINEACIÓN) ---
+        const StatusLabel = ({ text, type }) => {
+            const isSuccess = type === 'success';
+            const color = isSuccess ? "#15803d" : "#dc2626"; // green-700 / red-600
+            const bgColor = isSuccess ? "#f0fdf4" : "#fef2f2"; // green-50 / red-50
+            const borderColor = isSuccess ? "#dcfce7" : "#fee2e2"; // green-100 / red-100
+            const width = isSuccess ? 110 : 100;
+            
+            return (
+                <div className="absolute top-4 right-4 z-20">
+                    <div className={`flex items-center gap-1.5 px-3 h-7 rounded-full border shadow-sm ${isSuccess ? 'bg-green-50 border-green-100 text-green-700' : 'bg-red-50 border-red-100 text-red-600'}`}>
+                        {isSuccess ? <IconCheck size={14} className="stroke-[3]"/> : <IconXCircle size={14} className="stroke-[2.5]"/>}
+                        
+                        {/* Texto renderizado como SVG para alineación vertical perfecta en exportación */}
+                        <svg width={isSuccess ? "80" : "70"} height="28" className="block">
+                            <text 
+                                x="0" 
+                                y="50%" 
+                                dy=".1em"
+                                dominantBaseline="middle" 
+                                fill="currentColor" 
+                                fontSize="11" 
+                                fontWeight="bold" 
+                                letterSpacing="0.1em"
+                                style={{ textTransform: 'uppercase' }}
+                                fontFamily="Arial, sans-serif"
+                            >
+                                {text}
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+            );
+        };
 
         // --- APP PRINCIPAL ---
         const App = () => {
@@ -352,11 +384,7 @@
                                     {/* Card 1: Solicitud */}
                                     <div className="bg-white rounded-3xl border border-slate-200 flex flex-col items-center overflow-hidden shadow-sm relative group">
                                         <StepNumber number="1" />
-                                        {/* ETIQUETA COMPLETADO: Flexbox estricto con altura fija para alineación perfecta */}
-                                        <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 h-7 rounded-full border border-green-100 shadow-sm z-20">
-                                            <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase mt-[1px]">Completado</span>
-                                        </div>
+                                        <StatusLabel text="Completado" type="success" />
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso1.png" placeholderText="Solicitud Recibida" bgColor="bg-slate-50" />
                                         </div>
@@ -372,10 +400,7 @@
                                     {/* Card 2: Validación */}
                                     <div className="bg-white rounded-3xl border border-slate-200 flex flex-col items-center overflow-hidden shadow-sm relative group">
                                         <StepNumber number="2" />
-                                        <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 h-7 rounded-full border border-green-100 shadow-sm z-20">
-                                            <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase mt-[1px]">Completado</span>
-                                        </div>
+                                        <StatusLabel text="Completado" type="success" />
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso2.png" placeholderText="Validación Aprobada" bgColor="bg-slate-50" />
                                         </div>
@@ -390,10 +415,7 @@
                                     {/* Card 3: Envío (Solicitud de Pago) */}
                                     <div className="bg-white rounded-3xl border border-slate-200 flex flex-col items-center overflow-hidden shadow-sm relative group">
                                         <StepNumber number="3" />
-                                        <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 h-7 rounded-full border border-green-100 shadow-sm z-20">
-                                            <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase mt-[1px]">Completado</span>
-                                        </div>
+                                        <StatusLabel text="Completado" type="success" />
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso3.png" placeholderText="Gestión Bancaria" bgColor="bg-slate-50" />
                                         </div>
@@ -409,10 +431,7 @@
                                     {/* Card 4: Rechazo */}
                                     <div className="bg-white rounded-3xl border-2 border-red-50 flex flex-col items-center overflow-hidden shadow-md relative ring-1 ring-red-100/50 group">
                                         <StepNumber number="4" />
-                                        <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-red-50 text-red-600 px-3 h-7 rounded-full border border-red-100 shadow-sm z-20">
-                                            <IconXCircle size={14} className="stroke-[2.5]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase mt-[1px]">Incidencia</span>
-                                        </div>
+                                        <StatusLabel text="Incidencia" type="error" />
                                         <div className="w-full h-64 p-6 bg-red-50/20 border-b border-red-50">
                                             <StepImage src="paso4.png" placeholderText="Rechazo Bancario" bgColor="bg-red-50" isRejected={true} />
                                         </div>
@@ -491,7 +510,6 @@
     </script>
 </body>
 </html>
-
 
 
 
