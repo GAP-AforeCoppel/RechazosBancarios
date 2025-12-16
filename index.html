@@ -27,11 +27,12 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Sombras ultra suaves */
+        /* Sombras ultra suaves para efecto flotante */
         .shadow-premium {
             box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.2);
         }
         
+        /* Animación suave para entrada */
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -117,18 +118,18 @@
         // --- COMPONENTE ETIQUETA SVG (SOLUCIÓN DEFINITIVA DE ALINEACIÓN) ---
         const StatusLabel = ({ text, type }) => {
             const isSuccess = type === 'success';
-            const color = isSuccess ? "#15803d" : "#dc2626"; // green-700 / red-600
-            const bgColor = isSuccess ? "#f0fdf4" : "#fef2f2"; // green-50 / red-50
-            const borderColor = isSuccess ? "#dcfce7" : "#fee2e2"; // green-100 / red-100
-            const width = isSuccess ? 110 : 100;
+            // Aumentamos el ancho del SVG para asegurar que quepa todo el texto
+            // "Completado" (10 letras) necesita más espacio que 80px
+            // "Incidencia" (10 letras) también necesita espacio
+            const svgWidth = isSuccess ? "105" : "95"; 
             
             return (
                 <div className="absolute top-4 right-4 z-20">
                     <div className={`flex items-center gap-1.5 px-3 h-7 rounded-full border shadow-sm ${isSuccess ? 'bg-green-50 border-green-100 text-green-700' : 'bg-red-50 border-red-100 text-red-600'}`}>
                         {isSuccess ? <IconCheck size={14} className="stroke-[3]"/> : <IconXCircle size={14} className="stroke-[2.5]"/>}
                         
-                        {/* Texto renderizado como SVG para alineación vertical perfecta en exportación */}
-                        <svg width={isSuccess ? "80" : "70"} height="28" className="block">
+                        {/* SVG con ancho aumentado para evitar cortes de texto */}
+                        <svg width={svgWidth} height="28" className="block">
                             <text 
                                 x="0" 
                                 y="50%" 
@@ -510,6 +511,7 @@
     </script>
 </body>
 </html>
+
 
 
 
