@@ -323,14 +323,14 @@
                             <div className="bg-[#0060A9] px-12 py-8 text-center text-white border-b-[8px] border-[#FFD100] relative z-20">
                                 {/* LOGO (Posicionado verticalmente al centro del contenedor padre para evitar solapamiento visual en distintas alturas) */}
                                 {logoError ? (
-                                    <div className="absolute top-1/2 -translate-y-1/2 left-12 h-16 w-40 border-2 border-dashed border-white/50 rounded flex items-center justify-center z-30">
+                                    <div className="absolute top-6 left-12 h-16 w-40 border-2 border-dashed border-white/50 rounded flex items-center justify-center z-30">
                                         <span className="text-white/70 text-[10px] font-bold">LOGO AQUÍ</span>
                                     </div>
                                 ) : (
                                     <img 
                                         src="logoafore.png" 
                                         alt="Afore Coppel" 
-                                        className="absolute top-1/2 -translate-y-1/2 left-12 h-16 w-auto object-contain z-30"
+                                        className="absolute top-6 left-12 h-16 w-auto object-contain z-30"
                                         onError={() => setLogoError(true)}
                                     />
                                 )}
