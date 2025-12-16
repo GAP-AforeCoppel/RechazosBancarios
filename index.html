@@ -47,14 +47,10 @@
         // --- UTILIDADES ---
         const formatDate = (dateString) => {
             if (!dateString) return '';
-            // Ajustamos la zona horaria para evitar desfases al seleccionar fecha manual
             const [year, month, day] = dateString.split('-');
             const date = new Date(year, month - 1, day);
-            
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = date.toLocaleDateString('es-ES', options);
-            
-            // Capitalizar la primera letra
             return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
         };
 
@@ -62,7 +58,7 @@
             return 'INC-' + Math.floor(100000 + Math.random() * 900000);
         };
 
-        // --- COMPONENTE DE IMAGEN (OPTIMIZADO PARA HTML2CANVAS) ---
+        // --- COMPONENTE DE IMAGEN (OPTIMIZADO) ---
         const StepImage = ({ src, placeholderText, bgColor, isRejected }) => {
             const [imgError, setImgError] = useState(false);
 
@@ -77,7 +73,6 @@
             }
 
             return (
-                /* CORRECCIÓN DE IMAGEN: Usamos flexbox para centrar y max-w/max-h para evitar estiramiento (squashing) */
                 <div className="w-full h-full flex items-center justify-center overflow-hidden">
                     <img 
                         src={src} 
@@ -98,12 +93,11 @@
         const IconCalendar = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>);
         const IconDownload = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>);
 
-        
-        // --- COMPONENTE NÚMERO DE PASO (AJUSTADO PARA HTML2CANVAS) ---
+        // --- COMPONENTE NÚMERO DE PASO ---
         const StepNumber = ({ number }) => (
             <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-white border border-slate-100 shadow-md flex items-center justify-center z-20">
-                {/* CORRECCIÓN: Quitamos el padding manual y usamos items-center justify-center del padre. Agregamos mt-[1px] para ajuste óptico si es necesario, pero leading-none es clave */}
-                <span className="text-[#0060A9] font-bold text-xs font-mono leading-none">{number}</span>
+                {/* Micro-ajuste pt-[1px] para centrado óptico perfecto */}
+                <span className="text-[#00529B] font-bold text-xs font-mono leading-none pt-[1px]">{number}</span>
             </div>
         );
 
@@ -194,13 +188,10 @@
                         backgroundColor: '#ffffff',
                         useCORS: true,
                         logging: false,
-                        // Configuración para asegurar que capture todo el contenido correctamente
                         width: cardRef.current.offsetWidth,
                         height: cardRef.current.scrollHeight,
                         windowHeight: cardRef.current.scrollHeight + 100,
-                        // Fix para evitar transformaciones extrañas durante la captura
                         onclone: (clonedDoc) => {
-                            // Opcional: Desactivar animaciones en el clon para evitar artefactos
                             const animatedElements = clonedDoc.querySelectorAll('.fade-in');
                             animatedElements.forEach(el => el.style.animation = 'none');
                         }
@@ -216,12 +207,10 @@
                         setTimeout(() => setCopyStatus('idle'), 2500);
                     } catch (clipboardError) {
                         console.warn("Clipboard API bloqueada o fallida, intentando método Legacy...", clipboardError);
-                        
                         try {
                             const img = document.createElement('img');
                             img.src = dataUrl;
                             img.contentEditable = true; 
-                            
                             const div = document.createElement('div');
                             div.contentEditable = true;
                             div.style.position = 'fixed';
@@ -230,19 +219,14 @@
                             div.style.opacity = '0';
                             div.appendChild(img);
                             document.body.appendChild(div);
-
                             const range = document.createRange();
                             range.selectNodeContents(div);
-                            
                             const selection = window.getSelection();
                             selection.removeAllRanges();
                             selection.addRange(range);
-
                             const result = document.execCommand('copy');
-                            
                             document.body.removeChild(div);
                             selection.removeAllRanges();
-
                             if (result) {
                                 setCopyStatus('success');
                                 setTimeout(() => setCopyStatus('idle'), 2500);
@@ -254,7 +238,6 @@
                             downloadImage(dataUrl);
                         }
                     }
-
                 } catch (error) {
                     console.error("Error general", error);
                     setCopyStatus('error');
@@ -270,26 +253,23 @@
                         <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Coppel_Logo.png/640px-Coppel_Logo.png" alt="Coppel" className="h-6 object-contain" onError={(e) => e.target.style.display = 'none'} />
-                                <span className="text-sm font-bold text-[#0060A9] hidden md:inline">Generador PRO</span>
+                                <span className="text-sm font-bold text-[#00529B] hidden md:inline">Generador PRO</span>
                             </div>
 
                             <div className="flex items-center gap-3 text-sm flex-wrap justify-end flex-1">
-                                {/* Inputs de Datos */}
                                 <input type="text" name="workerName" value={data.workerName} onChange={handleChange} placeholder="Nombre" className="border rounded px-2 py-1.5 bg-slate-50 w-32 md:w-40 text-xs" />
                                 <select onChange={handleServiceChange} className="border rounded px-2 py-1.5 bg-slate-50 text-slate-700 w-32 md:w-36 text-xs">
                                     {SERVICE_TYPES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
                                 </select>
-                                <select name="selectedRejectionId" value={data.selectedRejectionId} onChange={handleRejectionChange} className="border rounded px-2 py-1.5 bg-blue-50 text-[#0060A9] font-bold w-32 md:w-40 text-xs">
+                                <select name="selectedRejectionId" value={data.selectedRejectionId} onChange={handleRejectionChange} className="border rounded px-2 py-1.5 bg-blue-50 text-[#00529B] font-bold w-32 md:w-40 text-xs">
                                     {REJECTION_CATALOG.map((r) => <option key={r.id} value={r.id}>{r.id} - {r.label}</option>)}
                                 </select>
 
-                                {/* Input Fecha Límite */}
                                 <div className="flex items-center gap-1 border rounded px-2 py-1.5 bg-yellow-50 border-yellow-200">
                                     <span className="text-[10px] font-bold text-yellow-700 uppercase">Límite:</span>
                                     <input type="date" name="deadlineDate" value={data.deadlineDate} onChange={handleChange} className="bg-transparent text-xs text-yellow-900 font-medium outline-none w-24" />
                                 </div>
                                 
-                                {/* Botón Copiar */}
                                 <button 
                                     onClick={handleCopy} 
                                     disabled={copyStatus === 'copying'} 
@@ -298,7 +278,7 @@
                                         ${copyStatus === 'success' ? 'bg-green-600 text-white' : 
                                           copyStatus === 'downloaded' ? 'bg-orange-500 text-white' :
                                           copyStatus === 'error' ? 'bg-red-500 text-white' : 
-                                          'bg-[#0060A9] hover:bg-[#004d88] text-white'}
+                                          'bg-[#00529B] text-white'}
                                     `}
                                 >
                                     {copyStatus === 'copying' ? 'Procesando...' : 
@@ -326,8 +306,7 @@
                             }} 
                         >
                             {/* --- HEADER --- */}
-                            <div className="bg-[#0060A9] px-12 py-8 text-center text-white border-b-[8px] border-[#FFD100] relative z-20">
-                                {/* LOGO: Ajustado a top-2 para estar más arriba y no chocar con el texto */}
+                            <div className="bg-[#00529B] px-12 py-8 text-center text-white border-b-[8px] border-[#FFE600] relative z-20">
                                 {logoError ? (
                                     <div className="absolute top-2 left-12 h-16 w-40 border-2 border-dashed border-white/50 rounded flex items-center justify-center z-30">
                                         <span className="text-white/70 text-[10px] font-bold">LOGO AQUÍ</span>
@@ -341,11 +320,9 @@
                                     />
                                 )}
 
-                                {/* CONTENEDOR DE TEXTO */}
                                 <div className="relative z-10 pt-2 mx-auto max-w-2xl">
                                     <h2 className="text-4xl font-black tracking-tight leading-none mb-2 drop-shadow-sm">Estatus de tu Solicitud</h2>
                                     <p className="text-blue-100 text-base font-light tracking-wide opacity-90">
-                                        {/* CORRECCIÓN: Nombre sin borde inferior, solo negrita */}
                                         Hola <strong className="font-bold text-white">{data.workerName}</strong>, este es el seguimiento de tu trámite de <span className="font-medium text-white">{data.serviceType}</span>:
                                     </p>
                                 </div>
@@ -361,15 +338,13 @@
                                         <StepNumber number="1" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            {/* CORRECCIÓN: leading-none para centrado vertical exacto en captura */}
-                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none pt-[1px]">Completado</span>
                                         </div>
-                                        {/* Contenedor fijo para imagen */}
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso1.png" placeholderText="Solicitud Recibida" bgColor="bg-slate-50" />
                                         </div>
                                         <div className="w-full py-5 px-6 bg-white flex flex-col items-center justify-center text-center">
-                                            <h3 className="text-[#003B73] font-bold text-base tracking-tight mb-1">Solicitud Recibida</h3>
+                                            <h3 className="text-[#00529B] font-bold text-base tracking-tight mb-1">Solicitud Recibida</h3>
                                             <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[90%]">
                                                 Recibimos tu solicitud para validar el trámite.
                                             </p>
@@ -382,13 +357,13 @@
                                         <StepNumber number="2" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none pt-[1px]">Completado</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso2.png" placeholderText="Validación Aprobada" bgColor="bg-slate-50" />
                                         </div>
                                         <div className="w-full py-5 px-6 bg-white flex flex-col items-center justify-center text-center">
-                                            <h3 className="text-[#003B73] font-bold text-base tracking-tight mb-1">Validación Aprobada</h3>
+                                            <h3 className="text-[#00529B] font-bold text-base tracking-tight mb-1">Validación Aprobada</h3>
                                             <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[90%]">
                                                 Afore Coppel validó los requisitos normativos.
                                             </p>
@@ -400,13 +375,13 @@
                                         <StepNumber number="3" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100 shadow-sm z-20">
                                             <IconCheck size={14} className="stroke-[3]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Completado</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none pt-[1px]">Completado</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-slate-50 border-b border-slate-100">
                                             <StepImage src="paso3.png" placeholderText="Gestión Bancaria" bgColor="bg-slate-50" />
                                         </div>
                                         <div className="w-full py-5 px-6 bg-white flex flex-col items-center justify-center text-center">
-                                            <h3 className="text-[#003B73] font-bold text-base tracking-tight mb-1">Solicitud de Pago</h3>
+                                            <h3 className="text-[#00529B] font-bold text-base tracking-tight mb-1">Solicitud de Pago</h3>
                                             <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[95%]">
                                                 Transferencia de pago enviada a su cuenta de banco proporcionada.
                                             </p>
@@ -419,7 +394,7 @@
                                         <StepNumber number="4" />
                                         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1 rounded-full border border-red-100 shadow-sm z-20">
                                             <IconXCircle size={14} className="stroke-[2.5]"/>
-                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none">Incidencia</span>
+                                            <span className="text-[11px] font-bold tracking-widest uppercase leading-none pt-[1px]">Incidencia</span>
                                         </div>
                                         <div className="w-full h-64 p-6 bg-red-50/20 border-b border-red-50">
                                             <StepImage src="paso4.png" placeholderText="Rechazo Bancario" bgColor="bg-red-50" isRejected={true} />
@@ -454,15 +429,15 @@
                                     </div>
                                     
                                     <div className="flex-1 flex gap-5 bg-blue-50/60 p-6 rounded-2xl border border-blue-100/80 items-start">
-                                        <div className="bg-white p-3 rounded-full shadow-sm shrink-0 border border-blue-100 text-[#0060A9]">
+                                        <div className="bg-white p-3 rounded-full shadow-sm shrink-0 border border-blue-100 text-[#00529B]">
                                             <IconInfo size={28} />
                                         </div>
                                         <div>
-                                            <p className="text-[#004B8D] text-xs font-bold uppercase tracking-widest mb-2">
+                                            <p className="text-[#00529B] text-xs font-bold uppercase tracking-widest mb-2">
                                                 Nota Importante
                                             </p>
                                             <p className="text-slate-700 text-sm leading-relaxed font-medium text-left">
-                                                Es necesario corregir esta situación directamente con tu banco y notificarnos. O bien, envía un nuevo estado de cuenta al correo: <span className="font-bold text-[#0060A9] underline decoration-blue-200 underline-offset-2">ueapcoppel@aforecoppel.com</span>.
+                                                Es necesario corregir esta situación directamente con tu banco y notificarnos. O bien, envía un nuevo estado de cuenta al correo: <span className="font-bold text-[#00529B] underline decoration-blue-200 underline-offset-2">ueapcoppel@aforecoppel.com</span>.
                                             </p>
                                         </div>
                                     </div>
@@ -471,17 +446,17 @@
                                 <div className="flex justify-center mt-2 mb-2">
                                     <div className="flex flex-col items-center bg-yellow-50/50 border border-yellow-200/60 rounded-xl px-10 py-2">
                                         <div className="flex items-center gap-2 mb-0.5">
-                                            <IconCalendar size={13} className="text-[#0060A9]" />
+                                            <IconCalendar size={13} className="text-[#00529B]" />
                                             <span className="text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em]">Fecha límite de envío</span>
                                         </div>
-                                        <div className="text-[#0060A9] font-black text-base tracking-tight">
+                                        <div className="text-[#00529B] font-black text-base tracking-tight">
                                             {formatDate(data.deadlineDate)}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className="h-2 w-full bg-[#FFD100] shrink-0"></div>
+                            <div className="h-2 w-full bg-[#FFE600] shrink-0"></div>
                         </div>
 
                         {/* --- FOOTER DE LA HERRAMIENTA --- */}
@@ -499,6 +474,7 @@
     </script>
 </body>
 </html>
+
 
 
 
