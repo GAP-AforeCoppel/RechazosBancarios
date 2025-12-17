@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Estatus - Afore Coppel (Versión Final)</title>
+    <title>Generador de Estatus - Afore Coppel</title>
     
-    <!-- 1. Estilos y Fuentes (CDNs oficiales) -->
+    <!-- 1. Estilos y Fuentes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- 2. Librerías de Terceros -->
+    <!-- 2. Librerías Externas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -31,7 +31,6 @@
 
     <div id="root"></div>
 
-    <!-- Script tipo Babel para que el navegador procese el código React directamente -->
     <script type="text/babel">
         const { useState, useRef, useEffect } = React;
 
@@ -58,6 +57,7 @@
                         {imgError ? (
                             <div className={`w-full h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed ${isRejected ? 'border-red-200 bg-red-50/50' : 'border-slate-200 bg-slate-50/50'} text-slate-400 p-4`}>
                                 <span className="text-[10px] font-bold text-center uppercase tracking-wider opacity-50">{placeholderText}</span>
+                                <span className="text-[8px] mt-1 opacity-20">{src}</span>
                             </div>
                         ) : (
                             <img 
@@ -75,7 +75,7 @@
                 <div className="absolute top-4 left-4 z-20">
                     <svg width="50" height="50" viewBox="0 0 50 50" className="drop-shadow-md">
                         <circle cx="25" cy="25" r="24" fill={type === 'success' ? "#22c55e" : "#ef4444"} stroke="white" strokeWidth="2" />
-                        <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="20" fontWeight="800" fontFamily="Arial, sans-serif">{number}</text>
+                        <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="20" fontWeight="800" fontFamily="Inter, sans-serif">{number}</text>
                     </svg>
                 </div>
             );
@@ -125,7 +125,7 @@
                 customAction: REJECTION_CATALOG[1].comment,
             });
 
-            // --- MÉTODO DE COPIADO LEGACY ---
+            // --- LÓGICA DE COPIADO LEGACY ---
             const handleCopy = async () => {
                 setCopyStatus('copying');
                 try {
@@ -174,11 +174,13 @@
 
             return (
                 <div className="min-h-screen flex flex-col bg-slate-100 pb-10">
+                    {/* Barra de Control */}
                     <div className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm py-3 px-6">
                         <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Coppel_Logo.png/640px-Coppel_Logo.png" alt="Coppel" className="h-6 object-contain" />
-                                <span className="text-sm font-bold text-[#00529B]">Generador PRO</span>
+                                {/* Logo sustituido por logoafore.png enseguida del texto */}
+                                <img src="logoafore.png" alt="Afore Coppel" className="h-8 object-contain" />
+                                <span className="text-sm font-bold text-[#00529B] hidden md:inline">Generador PRO</span>
                             </div>
                             <div className="flex items-center gap-3 text-sm flex-wrap justify-end flex-1">
                                 <input type="text" value={data.workerName} onChange={(e) => setData({...data, workerName: e.target.value})} className="border rounded px-2 py-1.5 bg-slate-50 w-40 text-xs outline-none focus:ring-1 focus:ring-blue-400" />
@@ -199,11 +201,13 @@
                         </div>
                     </div>
 
+                    {/* Canvas de la Imagen */}
                     <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-auto">
                         <div ref={cardRef} className="bg-white w-[1000px] shadow-2xl flex flex-col relative overflow-hidden shrink-0 border border-slate-200">
                             
                             <div className="bg-[#00529B] px-12 py-8 text-center text-white border-b-[8px] border-[#FFE600] relative z-20">
-                                <img src="logoafore.png" alt="Afore Coppel" className="absolute top-2 left-12 h-16 w-auto object-contain z-30 brightness-0 invert" onError={(e) => e.target.src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Coppel_Logo.png/640px-Coppel_Logo.png"} />
+                                {/* Logo logoafore.png en el encabezado de la imagen */}
+                                <img src="logoafore.png" alt="Afore Coppel" className="absolute top-2 left-12 h-16 w-auto object-contain z-30 brightness-0 invert" />
                                 <div className="relative z-10 pt-2 mx-auto max-w-2xl">
                                     <h2 className="text-4xl font-black tracking-tight leading-none mb-2">Estatus de tu Solicitud</h2>
                                     <p className="text-blue-100 text-base font-light tracking-wide opacity-90">
@@ -214,6 +218,7 @@
 
                             <div className="px-12 py-10 bg-slate-50 relative">
                                 <div className="grid grid-cols-2 gap-8 relative z-10">
+                                    {/* Pasos 1 al 3 con sus respectivos archivos png */}
                                     {[
                                         { n: "1", t: "Solicitud Recibida", d: "Recibimos tu solicitud para validar el trámite.", p: "paso1.png" },
                                         { n: "2", t: "Validación Aprobada", d: "Afore Coppel validó los requisitos normativos.", p: "paso2.png" },
@@ -232,6 +237,7 @@
                                         </div>
                                     ))}
 
+                                    {/* Paso 4 con su respectivo archivo paso4.png */}
                                     <div className="bg-red-50 rounded-3xl border-2 border-red-400 flex flex-col items-center overflow-hidden shadow-md relative group ring-4 ring-red-100/30">
                                         <StepNumber number="4" type="error" />
                                         <StatusLabel type="error" />
@@ -299,7 +305,6 @@
             );
         };
 
-        // Renderizado final para archivo HTML directo
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
