@@ -26,11 +26,11 @@
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Ajuste específico para asegurar el centrado en capturas de html2canvas */
-        .status-label-text {
+        /* Asegurar que el texto no baje en la captura */
+        .status-text-fix {
             display: inline-block;
             line-height: 1;
-            vertical-align: middle;
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -63,7 +63,6 @@
                         {imgError ? (
                             <div className={`w-full h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed ${isRejected ? 'border-red-200 bg-red-50/50' : 'border-slate-200 bg-slate-50/50'} text-slate-400 p-4`}>
                                 <span className="text-[10px] font-bold text-center uppercase tracking-wider opacity-50">{placeholderText}</span>
-                                <span className="text-[8px] mt-1 opacity-20">{src}</span>
                             </div>
                         ) : (
                             <img 
@@ -79,27 +78,29 @@
 
             const StepNumber = ({ number, type }) => (
                 <div className="absolute top-4 left-4 z-20">
-                    <svg width="50" height="50" viewBox="0 0 50 50" className="drop-shadow-md">
-                        <circle cx="25" cy="25" r="24" fill={type === 'success' ? "#22c55e" : "#ef4444"} stroke="white" strokeWidth="2" />
-                        <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="20" fontWeight="800" fontFamily="Inter, sans-serif">{number}</text>
+                    <svg width="55" height="55" viewBox="0 0 50 50" className="drop-shadow-md">
+                        <circle cx="25" cy="25" r="24" fill={type === 'success' ? "#22c55e" : "#ef4444"} stroke="white" strokeWidth="2.5" />
+                        <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="900" fontFamily="Inter, sans-serif">{number}</text>
                     </svg>
                 </div>
             );
 
-            // COMPONENTE STATUS CORREGIDO PARA CAPTURA
+            // ETIQUETA DE STATUS MEJORADA: Más grande y con alineación central garantizada
             const StatusLabel = ({ type }) => {
                 const isSuccess = type === 'success';
                 return (
                     <div className="absolute top-4 right-4 z-20">
-                        <div className={`flex items-center justify-center gap-1.5 px-4 h-9 rounded-full border shadow-sm transition-all ${isSuccess ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-100 text-red-600'}`}>
-                            {/* Icono Check o X */}
-                            {isSuccess ? (
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            ) : (
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                            )}
-                            {/* Texto centrado con line-height controlado */}
-                            <span className="text-[13px] font-black uppercase tracking-widest status-label-text">
+                        <div className={`inline-flex items-center justify-center gap-2 px-5 h-11 rounded-full border-2 shadow-md transition-all ${isSuccess ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-600'}`}>
+                            {/* Contenedor de Icono con ancho fijo para evitar traslapes */}
+                            <div className="flex-shrink-0 w-5 flex items-center justify-center">
+                                {isSuccess ? (
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                ) : (
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                )}
+                            </div>
+                            {/* Texto con ajuste de altura de línea */}
+                            <span className="text-[15px] font-black uppercase tracking-widest leading-none status-text-fix">
                                 {isSuccess ? "Completado" : "Incompleto"}
                             </span>
                         </div>
@@ -107,6 +108,7 @@
                 );
             };
 
+            // --- CATÁLOGOS ---
             const SERVICE_TYPES = [
                 { id: 'retiro_desempleo', label: 'Retiro por Desempleo' },
                 { id: 'retiro_matrimonio', label: 'Retiro por Matrimonio' },
@@ -140,6 +142,7 @@
                 customAction: REJECTION_CATALOG[1].comment,
             });
 
+            // --- LÓGICA DE COPIADO LEGACY ---
             const handleCopy = async () => {
                 setCopyStatus('copying');
                 try {
@@ -152,6 +155,7 @@
                         height: cardRef.current.scrollHeight
                     });
                     const dataUrl = canvas.toDataURL('image/png');
+                    
                     const img = document.createElement('img');
                     img.src = dataUrl;
                     img.contentEditable = true;
@@ -178,7 +182,7 @@
                     <div className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm py-3 px-6">
                         <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
-                                <img src="logoafore.png" alt="Afore Coppel" className="h-8 object-contain" />
+                                <img src="logoafore.png" alt="Logo Afore" className="h-8 object-contain" />
                                 <span className="text-sm font-bold text-[#00529B] hidden md:inline">Generador PRO</span>
                             </div>
                             <div className="flex items-center gap-3 text-sm flex-wrap justify-end flex-1">
@@ -220,7 +224,7 @@
                                         { n: "2", t: "Validación Aprobada", d: "Afore Coppel validó los requisitos normativos.", p: "paso2.png" },
                                         { n: "3", t: "Solicitud de Pago", d: "Transferencia enviada a tu cuenta de banco.", p: "paso3.png" }
                                     ].map(step => (
-                                        <div key={step.n} className="bg-green-50/50 rounded-3xl border-2 border-green-200 flex flex-col items-center overflow-hidden shadow-sm relative">
+                                        <div key={step.n} className="bg-green-50/50 rounded-3xl border-2 border-green-200 flex flex-col items-center overflow-hidden shadow-sm relative group">
                                             <StepNumber number={step.n} type="success" />
                                             <StatusLabel type="success" />
                                             <div className="w-full h-64 p-4 bg-white border-b border-green-50">
@@ -303,6 +307,7 @@
     </script>
 </body>
 </html>
+
 
 
 
