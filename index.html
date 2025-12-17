@@ -25,6 +25,13 @@
         .shadow-premium { box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.2); }
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Ajuste específico para asegurar el centrado en capturas de html2canvas */
+        .status-label-text {
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -79,18 +86,20 @@
                 </div>
             );
 
-            // CORRECCIÓN: Alineación centralizada y restauración de iconos
+            // COMPONENTE STATUS CORREGIDO PARA CAPTURA
             const StatusLabel = ({ type }) => {
                 const isSuccess = type === 'success';
                 return (
                     <div className="absolute top-4 right-4 z-20">
-                        <div className={`flex items-center justify-center gap-2 px-4 h-10 rounded-full border shadow-sm transition-all ${isSuccess ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-100 text-red-600'}`}>
+                        <div className={`flex items-center justify-center gap-1.5 px-4 h-9 rounded-full border shadow-sm transition-all ${isSuccess ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-100 text-red-600'}`}>
+                            {/* Icono Check o X */}
                             {isSuccess ? (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><polyline points="20 6 9 17 4 12"></polyline></svg>
                             ) : (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                             )}
-                            <span className="text-[13px] font-black uppercase tracking-widest leading-none" style={{ marginTop: '1px' }}>
+                            {/* Texto centrado con line-height controlado */}
+                            <span className="text-[13px] font-black uppercase tracking-widest status-label-text">
                                 {isSuccess ? "Completado" : "Incompleto"}
                             </span>
                         </div>
@@ -214,7 +223,7 @@
                                         <div key={step.n} className="bg-green-50/50 rounded-3xl border-2 border-green-200 flex flex-col items-center overflow-hidden shadow-sm relative">
                                             <StepNumber number={step.n} type="success" />
                                             <StatusLabel type="success" />
-                                            <div className="w-full h-64 bg-white border-b border-green-50">
+                                            <div className="w-full h-64 p-4 bg-white border-b border-green-50">
                                                 <StepImage src={step.p} placeholderText={step.t} isRejected={false} />
                                             </div>
                                             <div className="w-full py-5 px-6 text-center min-h-[110px]">
