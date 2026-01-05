@@ -125,20 +125,20 @@
             ];
 
             const REJECTION_CATALOG = [
-                { id: 4, code: "4", label: "El número de cuenta no existe", comment: "Tu banco no reconoce el número de cuenta proporcionado. Por favor, envía un estado de cuenta vigente de una cuenta distinta." },
-                { id: 5, code: "5", label: "Cuenta Bloqueada", comment: "Tu banco tiene restringidos los depósitos. Acude a tu sucursal para desbloquearla o envíanos una cuenta nueva." },
-                { id: 6, code: "6", label: "Cuenta Cancelada", comment: "La cuenta registrada ya no está vigente. Es necesario que nos proporciones un nuevo estado de cuenta para realizar tu pago." },
-                { id: 10, code: "10", label: "Cuenta Inactiva", comment: "Tu cuenta no ha tenido movimientos recientemente. Solicita su reactivación en el banco o envíanos una cuenta nueva." },
-                { id: 11, code: "11", label: "Cuenta Inexistente", comment: "Tu banco no reconoce el número de cuenta proporcionado. Por favor, envía un estado de cuenta vigente de una cuenta distinta." },
-                { id: 12, code: "12", label: "Cuenta Bloqueada", comment: "Tu banco tiene restringidos los depósitos. Acude a tu sucursal para desbloquearla o envíanos una cuenta nueva." },
-                { id: 13, code: "13", label: "Cuenta Cancelada", comment: "La cuenta registrada ya no está vigente. Es necesario que nos proporciones un nuevo estado de cuenta para realizar tu pago." },
-                { id: 15, code: "15", label: "Cuenta con otra divisa", comment: "El depósito solo puede realizarse en Pesos Mexicanos. Proporcionanos una cuenta bancaria nacional en moneda nacional." },
-                { id: 16, code: "16", label: "Cuenta no pertenece al banco", comment: "Los datos de la cuenta no coinciden con la institución bancaria seleccionada. Envía una nueva cuenta para corregirlo." },
-                { id: 24, code: "24", label: "Falta información mandatoria para completar el pago", comment: "El banco requiere datos adicionales para procesar el pago. Acude a tu banco para actualizar tu información o envía una cuenta nueva." },
-                { id: 27, code: "27", label: "Tipo de cuenta no corresponde", comment: "La cuenta proporcionada no permite este tipo de depósitos. Valida con tu banco o proporciónanos una cuenta diferente." },
-                { id: 30, code: "30", label: "Excede el límite de abono autorizado de la cuenta", comment: "El depósito supera el límite de dinero permitido en tu cuenta. Solicita ampliar el límite de depósitos en tu banco o envía una cuenta distinta." },
-                { id: 31, code: "31", label: "Excede el límite de abono permitido por mes en la cuenta", comment: "El depósito supera el límite de dinero permitido en tu cuenta. Solicita ampliar el límite de depósitos en tu banco o envía una cuenta distinta." },
-                { id: 7, code: "7", label: "Error en el RFC", comment: "El RFC en tu solicitud no coincide con el registrado en tu banco. Solicita la corrección de tus datos en el banco o envíanos una cuenta nueva." }
+                { id: 4, code: "4", label: "El número de cuenta no existe", fullLabel: "El número de cuenta no existe", comment: "Tu banco no reconoce el número de cuenta proporcionado. Por favor, envía un estado de cuenta vigente de una cuenta distinta." },
+                { id: 5, code: "5", label: "Cuenta bloqueada", fullLabel: "Cuenta bloqueada", comment: "Tu banco tiene restringidos los depósitos. Acude a tu sucursal para desbloquearla o envíanos una cuenta nueva." },
+                { id: 6, code: "6", label: "Cuenta cancelada", fullLabel: "Cuenta cancelada", comment: "La cuenta registrada ya no está vigente. Es necesario que nos proporciones un nuevo estado de cuenta para realizar tu pago." },
+                { id: 10, code: "10", label: "Cuenta inactiva", fullLabel: "Cuenta inactiva", comment: "Tu cuenta no ha tenido movimientos recientemente. Solicita su reactivación en el banco o envíanos una cuenta nueva." },
+                { id: 11, code: "11", label: "Cuenta inexistente", fullLabel: "Cuenta inexistente", comment: "Tu banco no reconoce el número de cuenta proporcionado. Por favor, envía un estado de cuenta vigente de una cuenta distinta." },
+                { id: 12, code: "12", label: "Cuenta bloqueada", fullLabel: "Cuenta bloqueada", comment: "Tu banco tiene restringidos los depósitos. Acude a tu sucursal para desbloquearla o envíanos una cuenta nueva." },
+                { id: 13, code: "13", label: "Cuenta cancelada", fullLabel: "Cuenta cancelada", comment: "La cuenta registrada ya no está vigente. Es necesario que nos proporciones un nuevo estado de cuenta para realizar tu pago." },
+                { id: 15, code: "15", label: "Cuenta con otra divisa", fullLabel: "Cuenta con otra divisa", comment: "El depósito solo puede realizarse en Pesos Mexicanos. Proporcionanos una cuenta bancaria nacional en moneda nacional." },
+                { id: 16, code: "16", label: "Cuenta no pertenece al banco", fullLabel: "Cuenta no pertenece al banco", comment: "Los datos de la cuenta no coinciden con la institución bancaria seleccionada. Envía una nueva cuenta para corregirlo." },
+                { id: 24, code: "24", label: "Falta información mandatoria", fullLabel: "Falta información mandatoria para completar el pago", comment: "El banco requiere datos adicionales para procesar el pago. Acude a tu banco para actualizar tu información o envía una cuenta nueva." },
+                { id: 27, code: "27", label: "Tipo de cuenta no corresponde", fullLabel: "Tipo de cuenta no corresponde", comment: "La cuenta proporcionada no permite este tipo de depósitos. Valida con tu banco o proporciónanos una cuenta diferente." },
+                { id: 30, code: "30", label: "Exc lmt de sdo aut de la cta", fullLabel: "Excede el límite de saldo autorizado de la cuenta", comment: "El depósito supera el límite de dinero permitido en tu cuenta. Solicita ampliar el límite de depósitos en tu banco o envía una cuenta distinta." },
+                { id: 31, code: "31", label: "Exc lmt abon perm xmes n l cta", fullLabel: "Excede el límite de abono permitido por mes en la cuenta", comment: "El depósito supera el límite de dinero permitido en tu cuenta. Solicita ampliar el límite de depósitos en tu banco o envía una cuenta distinta." },
+                { id: 7, code: "7", label: "Error en el RFC", fullLabel: "Error en el RFC", comment: "El RFC en tu solicitud no coincide con el registrado en tu banco. Solicita la corrección de tus datos en el banco o envíanos una cuenta nueva." }
             ];
 
             const [data, setData] = useState({
@@ -258,7 +258,7 @@
                                             <p className="text-sm text-red-900 font-medium tracking-tight leading-snug">
                                                 La cuenta bancaria que proporcionaste presentó un rechazo por: <br/>
                                                 <span className="font-extrabold uppercase text-[15px] block mt-1">
-                                                    {REJECTION_CATALOG.find(r => r.id === data.selectedRejectionId)?.label}
+                                                    {REJECTION_CATALOG.find(r => r.id === data.selectedRejectionId)?.fullLabel}
                                                 </span>
                                             </p>
                                         </div>
@@ -332,6 +332,7 @@
     </script>
 </body>
 </html>
+
 
 
 
