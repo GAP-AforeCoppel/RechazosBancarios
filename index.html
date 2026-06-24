@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de rechazo bancario Afore Coppel</title>
     
-    <!-- 1. Estilos y Fuentes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- 2. Librerías Externas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -31,7 +29,7 @@
 
     <div id="root"></div>
 
-    <script type="text/babel">
+    <script type="text/babel" data-type="module">
         const { useState, useRef, useEffect } = React;
 
         const App = () => {
@@ -272,12 +270,12 @@
                                     <div className="flex-1 flex gap-5 bg-red-50/60 p-6 rounded-2xl border border-red-100/80 items-start shadow-sm">
                                         <div className="shrink-0">
                                             <svg width="60" height="88" viewBox="0 0 104 154" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M103 50.2063C103 22.7653 79.7276 0.576872 51.1891 1.00612C24.1553 1.41196 1.91828 22.4766 1.02848 48.5439C0.648291 59.6576 4.09426 69.9753 10.1854 78.373C18.0561 89.2214 22.0764 102.232 22.0764 115.468V115.991H81.9278V115.991V115.468C81.9278 102.286 85.8511 89.2761 93.7218 78.4979C99.5621 70.4982 103 60.7425 103 50.2063Z" fill="#F0EFEF" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M22.3047 114.615V132.635C22.3047 140.918 29.4401 147.633 38.2421 147.633H39.5608C41.1869 150.808 44.6252 153 48.6217 153H57.3914C61.3879 153 64.8342 150.8 66.4522 147.625C75.1491 147.511 82.1632 140.85 82.1632 132.643V114.615H22.3047Z" fill="#FFDD35" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M23 127H81.5" stroke="black" stroke-width="2"/>
-                                                <path d="M57.2812 114.592L67.8618 60.0845" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M35.8633 60.2095L47.6249 114.592" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M35.9336 60.0381C38.5868 60.0381 38.5868 67.8427 41.2401 67.8427C43.8933 67.8427 43.8933 60.0381 46.5465 60.0381C49.1998 60.0381 49.1998 67.8427 51.853 67.8427C54.5062 67.8427 54.5062 60.0381 57.1595 60.0381C59.8127 60.0381 59.8127 67.8427 62.474 67.8427C65.1353 67.8427 65.1272 60.0381 67.7886 60.0381" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M103 50.2063C103 22.7653 79.7276 0.576872 51.1891 1.00612C24.1553 1.41196 1.91828 22.4766 1.02848 48.5439C0.648291 59.6576 4.09426 69.9753 10.1854 78.373C18.0561 89.2214 22.0764 102.232 22.0764 115.468V115.991H81.9278V115.991V115.468C81.9278 102.286 85.8511 89.2761 93.7218 78.4979C99.5621 70.4982 103 60.7425 103 50.2063Z" fill="#F0EFEF" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M22.3047 114.615V132.635C22.3047 140.918 29.4401 147.633 38.2421 147.633H39.5608C41.1869 150.808 44.6252 153 48.6217 153H57.3914C61.3879 153 64.8342 150.8 66.4522 147.625C75.1491 147.511 82.1632 140.85 82.1632 132.643V114.615H22.3047Z" fill="#FFDD35" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M23 127H81.5" stroke="black" strokeWidth="2"/>
+                                                <path d="M57.2812 114.592L67.8618 60.0845" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M35.8633 60.2095L47.6249 114.592" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M35.9336 60.0381C38.5868 60.0381 38.5868 67.8427 41.2401 67.8427C43.8933 67.8427 43.8933 60.0381 46.5465 60.0381C49.1998 60.0381 49.1998 67.8427 51.853 67.8427C54.5062 67.8427 54.5062 60.0381 57.1595 60.0381C59.8127 60.0381 59.8127 67.8427 62.474 67.8427C65.1353 67.8427 65.1272 60.0381 67.7886 60.0381" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                                 <rect x="22" y="111" width="60" height="3" fill="black"/>
                                             </svg>
                                         </div>
@@ -291,10 +289,10 @@
                                     <div className="flex-1 flex gap-5 bg-blue-50/60 p-6 rounded-2xl border border-blue-100/80 items-start shadow-sm">
                                         <div className="shrink-0">
                                             <svg width="60" height="80" viewBox="0 0 104 138" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M70.6562 118.376C70.6562 128.23 62.4188 136.275 52.1836 136.275C41.9483 136.275 33.7109 128.23 33.7109 118.376C33.7109 108.521 41.9483 100.477 52.1836 100.477C62.4188 100.477 70.6562 108.521 70.6562 118.376Z" fill="#FFDD35" stroke="black" stroke-width="2"/>
-                                                <path d="M61.7082 13.3129C61.7082 20.3072 57.0117 25.618 51.6295 25.618C46.2472 25.618 41.5508 20.3072 41.5508 13.3129C41.5508 6.31867 46.2472 1.00781 51.6295 1.00781C57.0117 1.00781 61.7082 6.31867 61.7082 13.3129Z" stroke="black" stroke-width="2"/>
-                                                <path d="M1.43715 65.2645C1.43715 37.4812 23.98 14.9565 51.7859 14.9565C79.5917 14.9565 102.135 37.4812 102.135 65.2645V120.079C102.135 121.911 100.644 123.401 98.8097 123.401H4.75452C2.92068 123.401 1.42969 121.911 1.42969 120.079V65.2645H1.43715Z" fill="#FFDD35" stroke="black" stroke-width="2"/>
-                                                <path d="M85.186 34.5635C94.4618 34.5635 101.981 27.05 101.981 17.7817C101.981 8.51344 94.4618 1 85.186 1C75.9102 1 68.3906 8.51344 68.3906 17.7817C68.3906 27.05 75.9102 34.5635 85.186 34.5635Z" fill="#FF8575" stroke="black" stroke-width="2"/>
+                                                <path d="M70.6562 118.376C70.6562 128.23 62.4188 136.275 52.1836 136.275C41.9483 136.275 33.7109 128.23 33.7109 118.376C33.7109 108.521 41.9483 100.477 52.1836 100.477C62.4188 100.477 70.6562 108.521 70.6562 118.376Z" fill="#FFDD35" stroke="black" strokeWidth="2"/>
+                                                <path d="M61.7082 13.3129C61.7082 20.3072 57.0117 25.618 51.6295 25.618C46.2472 25.618 41.5508 20.3072 41.5508 13.3129C41.5508 6.31867 46.2472 1.00781 51.6295 1.00781C57.0117 1.00781 61.7082 6.31867 61.7082 13.3129Z" stroke="black" strokeWidth="2"/>
+                                                <path d="M1.43715 65.2645C1.43715 37.4812 23.98 14.9565 51.7859 14.9565C79.5917 14.9565 102.135 37.4812 102.135 65.2645V120.079C102.135 121.911 100.644 123.401 98.8097 123.401H4.75452C2.92068 123.401 1.42969 121.911 1.42969 120.079V65.2645H1.43715Z" fill="#FFDD35" stroke="black" strokeWidth="2"/>
+                                                <path d="M85.186 34.5635C94.4618 34.5635 101.981 27.05 101.981 17.7817C101.981 8.51344 94.4618 1 85.186 1C75.9102 1 68.3906 8.51344 68.3906 17.7817C68.3906 27.05 75.9102 34.5635 85.186 34.5635Z" fill="#FF8575" stroke="black" strokeWidth="2"/>
                                             </svg>
                                         </div>
                                         <div>
